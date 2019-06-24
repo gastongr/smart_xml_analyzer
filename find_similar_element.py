@@ -44,7 +44,9 @@ class FindSimilarElement:
             print('Found multiple elements, please refine criteria:\n {}'.format(criteria))
 
         # Still didn't figure out how to obtain the element's path out of BeautifulSoup
-        print('Found matching element: \n {}'.format(elements[0]))
+        print('Found matching element:\n {}'.format(elements[0]))
+
+        print('Used criteria was:\n {}'.format(criteria))
 
 
     @staticmethod
