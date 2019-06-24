@@ -28,6 +28,10 @@ class FindSimilarElement:
             source_file_content = s.read()
             source_file_html = BeautifulSoup(source_file_content, 'html.parser')
             element = source_file_html.select_one(selector)
+            if not element:
+                msg = 'Could not find element matching selector "{}" on source file'.format(selector)
+                print(msg)
+                raise Exception(msg)
 
         with open(FileUtils.get_absolute_path(target_file)) as t:
             target_file_content = t.read()
