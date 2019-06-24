@@ -48,7 +48,7 @@ class FindSimilarElement:
             print('Found multiple elements, please refine criteria:\n {}'.format(criteria))
 
         # Still didn't figure out how to obtain the element's path out of BeautifulSoup
-        print('Found matching element:\n {}'.format(elements[0]))
+        print('Found matching element:\n {}'.format(elements))
 
         print('Used criteria was:\n {}'.format(criteria))
 
@@ -60,13 +60,16 @@ class FindSimilarElement:
         href = element.attrs.get('href')
         href_regex = re.compile(href.replace('#', ''))
         has_rel = 'rel' in element.attrs
+        # TODO: Obtain this one dynamically too
+        onclick = re.compile('ok')
 
         return {
             'name': tag,
             'attrs': {
                 'href': href_regex,
                 'class': first_css_class,
-                'rel': has_rel
+                'rel': has_rel,
+                'onclick': onclick
             }
         }
 
