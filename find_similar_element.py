@@ -43,12 +43,12 @@ class FindSimilarElement:
 
         if not elements:
             print('Could not find any element, please update criteria:\n {}'.format(criteria))
+            return
 
-        if len(elements) > 1:
-            print('Found multiple elements, please refine criteria:\n {}'.format(criteria))
+        print('Found matching element(s):')
 
-        # Still didn't figure out how to obtain the element's path out of BeautifulSoup
-        print('Found matching element:\n {}'.format(elements))
+        for el in elements:
+            print('{}\n'.format(FindSimilarElement.xpath_soup(el)))
 
         print('Used criteria was:\n {}'.format(criteria))
 
@@ -72,6 +72,33 @@ class FindSimilarElement:
                 'onclick': onclick
             }
         }
+
+
+    @staticmethod
+    def xpath_soup(element):
+        """
+        Generate xpath from BeautifulSoup4 element
+        :param element: BeautifulSoup4 element.
+        :type element: bs4.element.Tag or bs4.element.NavigableString
+        :return: xpath as string
+        :rtype: str
+        """
+        components = []
+        child = element if element.name else element.parent
+        for parent in child.parents:
+            """
+            @type parent: bs4.element.Tag
+            """
+            siblings = parent.find_all(child.name, recursive=False)
+            components.append(
+                child.name
+                if siblings == [child] else
+                '%s[%d]' % (child.name, 1 + siblings.index(child))
+            )
+            child = parent
+        components.reverse()
+        return '/%s' % '/'.join(components)
+
 
 if __name__ == '__main__':
     """
